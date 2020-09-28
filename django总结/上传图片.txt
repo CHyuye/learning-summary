@@ -1,0 +1,58 @@
+后台页面上传图片
+
+1、配置上传文件保存目录
+1）新建上传文件保存目录
+在static下建一个media文件，在建一个booktest文件，在此文件下上传图片
+
+2）配置上传文件保存目录
+在setting.py文件中最后面加上：
+MEDIA_ROOTV = os.path.join(BASE_DIR, 'static/media')  #设置上传文件目录
+
+3）设计模型类
+class PicTest(models.Model):
+    """上传图片"""
+    # 商品图片，upload_to指定上传目录
+    gPic = models.ImageField(upload_to='booktest')  # ImageField能确保是一个有效图片
+
+4）生成迁移表格
+python manage.py makemigrations
+
+python manage.py migrate
+
+5）注册模型类：admin.py文件中注册
+admin.site.register(PicTest)
+
+
+用户自定义页面上传图片
+1）定义用户上传图片的页面显示，是一个自定义的表单
+<form method="post" action="upload_action" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="pic"/> <br>
+    <input type="submit" value="上传">
+</form>
+
+2）定义接收上传文件的视图函数
+request对象有一个FILES的属性，类似于字典，通过request.FILES['pic']可以获得上传文件的处理对象
+
+def load_pic(request):
+    """上传图片页面"""
+    return render(request, 'booktest/upload_pic.html')
+
+def upload_handle(request):
+    """上传图片处理"""
+    # 1.获取上传文件的处理对象
+    pic = request.FILES['pic']
+    # print(type(pic))
+
+    # 2.创建一个文件
+    save_path = '%s/booktest/%s' % (settings.MEDIA_ROOT, pic.name)
+    with open(save_path, 'wb') as f:
+        # 3.获取文件的内容并写入到创建的文件中
+        for content in pic.chunks():
+            f.write(content)
+
+    # 4.在数据库中保存上传信息
+    PicTest.objects.create(goods_pic='booktest/%s' % pic.name)
+
+    # 5.返回
+    return HttpResponse('上传成功！')

@@ -1,0 +1,59 @@
+一、redis的简介
+（1）、NoSQL：一类新出现的数据库，特点：
+1.不支持SQL语法
+2.存储结构跟传统数据库完全不同，KV数据格式
+3.NoSQL数据库没有一中通用的语言
+
+（2）、redis特性：
+1.redis支持数据持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用
+2.redis不仅支持简单的key-value类型的数据，还提供list，set，hash等
+3.redis支持数据的备份，即master-slave模式的数据备份
+
+（3）、redis的应用场景：
+1.用作缓存 -- redis的所有数据是放在内存中的（内存数据库）
+2.在特定场景替代传统数据库  -- 社交类应用
+3.session共享，购物车
+
+
+二、redis数据库的下载与安装（建议先查看redis官方文档）
+setp1、下载：wget 后面跟你要下载的redis版本
+
+setp2、解压：tar -zxvf 下载的包名
+
+setp3、复制，放到/usr/local/redis/文件下（首先你要在/usr/local/下创建redis文件）sudo mkdir /usr/local/redis/
+sudo mv ./redis包 （这里必须有个空格隔开） /usr/local/redis/ 
+
+setp4、进入redis目录：cd /usr/local/redis/
+
+setp5、生成：sudo make
+
+setp6、测试：sudo make test
+
+setp6、安装，将redis的命令安装到/usr/local/bin/目录下：sudo make install
+
+setp7、进入改文件查看：cd /usr/local/bin/   ls -all
+
+setp8、配置文件，移动到/etc目录下：sudo cp /usr/local/redis/redis.conf /usr/local/redis/
+
+
+三、redis配置
+1、查看：sudo vi /etc/redis/redis.conf
+
+推荐参考资料：http://blog.csdn.net/ljphilp/article/details/52934933
+
+
+四、redis启动服务器端和客户端
+（1）、服务器端
+因为我们配置了服务器的配置项，所以推荐使用一下操作，启动redis服务器
+ps aux | grep redis   查看redis服务器的进程
+sudo kill -9 pid[进程号]   杀死redis服务器
+sudo redis-server /usr/local/etc/redis/redis.conf    启动服务器
+
+（2）、客户端
+连接客户端：redis-cli
+
+查看客户端帮助：redis-cli --help
+
+运行测试命令：ping
+
+切换数据库：select 0~15    （redis数据库有16个数据库，默认连接第一个，可以输入数字切换）

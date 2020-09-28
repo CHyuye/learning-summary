@@ -1,0 +1,31 @@
+1、启动守护式容器
+docker run - d 容器名  
+问题：docker ps -a 进行查看，会发现容器已经退出
+说明：Docker容器后台运行，就必须有一个前台进程，如果不是那些一直挂起的命令（比如top，tail），就会自动退出
+
+2、查看容器日志
+docker -f -t --tail 容器名
+-f：加入时间戳
+-t：跟随最新的日志打印
+--tail：数字显示最后多少条
+
+3、查看容器内运行的进程
+docker top 容器ID
+
+4、查看容器内部细节
+docker inspect 容器ID
+
+5、进入正在运行的容器并以命令行交互
+（1）、docker exec -it 容器ID /bin/bash、
+例如：docker exec -t 容器名 ls -l /tmp  显示tmp文件夹下的文件，不进入该终端
+
+重新进入
+（2）、docker attach 容器ID
+
+以上两种的区别：
+attach：直接进入容器启动命令的终端，不会启动新的进程
+exec：是在容器中打开新的终端，并且可以启动新的进程
+
+6、从容器上拷贝文件到主机上
+docker cp 容器ID:容器内路径 目的主机的路径
+

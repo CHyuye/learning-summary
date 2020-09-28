@@ -1,0 +1,16 @@
+在不同机器上连接远程数据库操作
+
+第一步：创建好要用的数据库
+
+第二步：修改配置文件
+1.查看ubuntu系统的ip地址
+  sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+2.找到bind-addres  修改绑定为本地ip
+3.重启mysql服务器：sudo service mysql restart
+
+第三步:mysql数据库授权指定机器ip地址
+1.进入数据库
+2.授权:意思是把dailyfresh数据库的所有表授权给root用户IP地址是169.254.191.14，使用的密码是mysql
+  grant all privileges on dailyfresh.* to 'root'@' 169.254.191.14' identified by 'mysql' with grant option;
+3.让授权生效
+  flush privileges;

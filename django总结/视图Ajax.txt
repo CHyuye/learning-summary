@@ -1,0 +1,46 @@
+Ajax基本概念
+异步的JavaScript。在不全部加载某一个页面部的情况下，对页面进行局部的刷新，ajax请求都在后台
+
+图片，css文件，js文件都是静态文件。
+可以在项目下创建一个static文件，然后在setting.py最后面加一句
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # 设置静态文件的保存目录
+
+ajax请求
+
+$.ajax({
+    'url': '请求地址',  
+    'type': '请求方式'  -- post/get  post方式安全性更高，信息在请求头里，get方式信息返回在页面栏
+    'dataType': '预期返回的数据格式'  -- json
+}).success(function(data){
+    // 执行成功后的回调函数
+)}
+
+1.发起ajax请求：jquery发起
+2.执行相关的视图函数，返回json内容
+3.执行相应的函数，通过判断json内容，进行相应处理
+
+Ajax登录案例
+
+1）首先分析出请求地址时需要携带的参数
+2）视图函数处理完成之后，所返回的json的格式
+
+
+状态保持
+http协议是无状态的，下一次去访问一个页面时并不知道上一次对这个页面做了什么
+
+Cookie：是由服务器生成，存储在浏览器的一小段文本信息
+cookie特点：
+1）以键值对方式存储
+2）通过浏览器访问一个网站时，会将浏览器存储的跟网站有关的所有cookie信息发送给该网站的服务器。request COOKIES
+3）cookie基于域名安全
+4）cookie有过期时间，不指定，默认关闭浏览器后就过期
+
+Session存储在服务器端
+特点：
+1）以键值对进行存储
+2）依赖于cookie。唯一标识码保存在sessionid cookie中
+3）有过期时间，不指定，默认两周后过期
+
+cookie于session的应用场景
+cookie：记住用户名。安全性不高
+session：涉及到安全性较高的数据。银行卡账户，密码

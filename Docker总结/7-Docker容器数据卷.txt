@@ -1,0 +1,19 @@
+容器数据卷——命名的容器挂载数据卷，其他容器通过挂载的这个（父容器）实现数据的共享，挂载的数据卷容器，称之为数据卷容器。
+
+总体介绍：
+ 以上一步新建的镜像chen/ubuntu为模板并运行容器/doc1 doc2等等
+  它们具有相同的容器卷，而且数据传递共享
+
+荣期间传递共享
+1、先启动一个父容器 ，在dataVolumeContainer内新增内容
+docker run -it --name dc01 chen/ubuntu
+
+2、dc02和dc03继承自dc01，在dataVolumeContainer内新增内容
+docker run -it --name dc02 --volumes-from dc01 chen/ubuntu
+
+3、回到dc01可以看到02、03各自添加到都能共享
+
+4、删除dc01，修改dc02，dc03依旧可以访问到
+
+5、删除dc02，dc03依旧可以访问
+结论：容器之间配置信息的传递，数据卷的生命周期一直持续到没有容器使用它为止。

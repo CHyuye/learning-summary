@@ -1,0 +1,70 @@
+模型类关系
+
+1）一对多关系
+models.ForeignKey() 定义在多类中
+
+2）多对多关系
+models.ManyToManyField()  定义在那个类都行
+
+3）一对一关系
+models.OneToOneField() 定义在哪个类都行
+
+
+关联查询（一对多）
+我们把多类中定义的建立关联的类属性叫作关联属性
+例如：查询id为1的图书关联的英雄信息
+b = BookInfo.objects.get(id=1)
+b.heroinfo_set.all()
+通过模型类查询：
+HeroInfo.objects.filter(hbook__id=1)
+
+例如：查询id为1的英雄关联的图书信息
+h = BookInfo.objects.get(id=1)
+h.hbook
+通过模型类查询
+BookInfo.objects.filter(hreoinfo__id=1)
+
+格式：
+由一类的对象查询多类的时候：
+   一类的对象.多类名小写_set.all()  # 查询所用数据
+
+由多类查询一类的时候：
+   多类的对象.关联属性   #查询多类的对象对应的一类对象
+
+由多类的对象查询一类的对象的id时：
+   多类的对象.关联属性_id
+
+
+通过模型类实现关联查询
+注意：
+  1.通过模型类实现关联查询时，要查那个表中的数据，就需要通过那个类来查
+  2.写关联查询条件时，如果类中没有关系属性，条件需要对应类的名，
+   如果类中有关系属性，直接写关系属性
+
+例如·：查询图书信息，要求图书关联的英雄描述包含‘八’’
+BookInfo.objects.filter(heroinfo__hcommetnt__contains='八')
+
+例如：查询图书信息，英雄id大于3
+BookInfo.objects.filter(heroinfo__id__gt=3)
+
+例如：查询书名为‘天龙八部’的所有英雄
+BookInfo.objects.filter(hbook__btitle='天龙八部')
+
+格式：
+通过多类的条件查询一类的数据：
+   一类名.objects.filter(多类名小写__多类属性名__条件名)
+
+通过一类查多类的数据：
+   一类名.objects.filter(关联属性名__一类属性名__条件名)
+
+
+插入，更新和删除
+  调用一个模型类对象的save方法就可以实现对模型类对应数据表的插入和更新
+  调用一个模型类对象的delete方法就可实现删除
+
+
+自关联  -- 自关联是一种特殊的一对多关系
+案例：显示广州市的上下级地区
+地区表：id，atitle，aParent_id
+mysql终端批量执行sql语句：source areas.sql
+

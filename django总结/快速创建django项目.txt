@@ -1,0 +1,87 @@
+快速创建django项目
+情况一：在Linux系统下
+
+  虚拟环境：是真实的python环境的复制版本。在虚拟环境中使用的python是复制的python。
+安装python包也是复制python中的。
+  虚拟环境存在的目的：可以在一台电脑上同时存在不同的版本开发环境
+
+一、安装虚拟环境（只有第一次使用时才需要安装）
+  1.安装虚拟环境
+  sudo pip install virtualenv
+
+  2.安装虚拟环境扩展包
+  sudo pip install virtualenvwrapper
+
+  3.编辑家目录下的.bashrc文件，添加下面三行代码
+  export WORKON_HOME = $HOME/.virtualenvs
+  export VIRTUALENVWRAPPER_PYTHON = usr/bin/python3
+  source /usr/local/bin/virtualenvwrapper.sh
+
+  4.执行命令source .bashrc使其生效
+
+二、创建虚拟环境
+  mkvirtualenv  + 虚拟环境名
+  创建python3虚拟环境：mkvirtualenv -p python3 test  (使用这一条，环境名自己取)
+
+三、安装django环境
+  pip install django==1.8.2  (可以根据实际情况下载自己用的django版本)
+
+四、虚拟环境的常用操作
+  ·进入虚拟环境工作
+  workon 虚拟环境名称
+
+  · 查看机器上有几个虚拟环境名
+  workon 空格 + 两个tab键
+
+  · 退出虚拟环境
+  deactivate
+
+  · 删除虚拟环境
+  rmvirtualenv 虚拟环境名
+
+  虚拟环境安装包的命令
+  1.pip install 包名
+  2.apt-get install 软件（如mysql）
+注意：不能使用sudo pip install 包名，这个命令会把安装到真实的主机环境而不是安装到虚拟环境中
+
+五、虚拟环境下下创建django项目
+  1.创建一个文件夹，cd到该文件下
+  django-admin startproject project_name(你要创建的项目名)
+  
+  2.在project_name （创建的项目名下，创建应用）
+  python manage.py startapp app_name(应用名)
+
+说明：manage.py：一个命令行工具，可以使你用多种方式对Django项目进行交互
+内层目录：项目真正的python包
+· __init__.py:一个空文件，他告诉你python这个目录应该被看成一个python包
+· setting.py：项目配置文件  -- 配置也犯了一个错，需要将创建的应用加到INSTALLED_APPS中，是应用，不是项目名
+· urls.py: 项目的URL声明 —— 跟django版本有关，版本不同URL声明不同，我犯了一个错，在1.8的虚拟环境下
+运行了2.X的django项目，报错！
+· wsgi.py:项目与WSGI兼容的web服务器入口
+
+六、运行服务器
+  python manage.py runserver
+
+  更多命令
+  查看更过命令： python manage.py
+  检测模型变化，生成迁移文件：python manage.py makemigrations +(app名字)
+  同步数据库与模型：python manage.py migrate
+  创建超级用户：python manage.py createsuperuser
+  修改用户密码：python manage.py changepassword username
+  查看当前版本：python manage.py version
+   打开交互终端：python manage.py shell
+                           python manage.py dbshell
+
+
+
+情况二：在window系统下
+
+在有python3.X和pycharm专业版的前提下
+安装django -- pip3 install django
+直接打开pycharm，创建django项目，会自动创建虚拟环境
+
+注：django项目名，会和文件名一直，
+创建好项目但不会有应用，需要另外创建应用。
+  在project_name （创建的项目名下，创建应用）
+  python manage.py startapp app_name(应用名)
+

@@ -1,0 +1,18 @@
+步骤如下
+搜索镜像 —— docker search 镜像名
+拉去镜像 —— docker pull 镜像名
+查看镜像 —— docker ps
+启动镜像 —— docker run 镜像名
+停止镜像 —— exit或者crtl+p+q
+移除镜像 —— docker rmi -f 镜像名
+
+以下以安装mysql为例
+拉取 —— docker pull nysql:5.6
+运行 —— 
+docker run -p12345:3306 --name mysql  # 指定端口和运行名字
+-v /chen/mysql/conf:/etc/mysql/conf.d   # 指定配置文件容器卷
+-v /chen/mysql/logs:/logs                       # 日志文件容器卷
+-v /chen/mysql/data:/var/lib/mysql        # 数据容器卷
+-e MYSQL_ROOT_PASSWORD=12345    # 启动mysql密码
+-d mysql:5.6                                            # 后端运行
+

@@ -1,0 +1,11 @@
+静态文件
+1、在项目下新建一个static静态文件
+  再在static文件下新建三个，js，css，images
+2、配置静态文件所在的物理目录。setting.py
+STATIC_URL = '/static/'    -- 设置访问静态文件对应的url
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]   -- 设置静态文件所在的物理目录
+
+在页面动态生成静态文件的路径
+1）在index页面加载静态文件项     {% load staticfiles %}
+2) 在需要生成静态文件的标签下导入   <img src="{static 'images/mm.jpg' %}">

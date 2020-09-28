@@ -1,0 +1,63 @@
+一、创建与合并分支
+1）查看当前分支并且看在哪个分支下
+git branch
+
+创建分支：git branch <name>
+切换分支：git chechout <name>
+
+2）创建一个分支并切换到该分支
+git checkout -b dev
+
+3）切换回分支master
+git checkoout master
+
+4）把dev分支的工作成果合并到master分支上
+git merge dev    -- 该过程使用的Fast-forword快速合并模式
+
+5）合并后就可以删除dev分支
+git branch -d dev
+
+
+二、解决冲突
+冲突的产生是因为，我们在dev分支上修改提交了，在master上修改并提交了，现在我们要合并
+这时候就会有冲突，导致我们呢不能使用快速合并模式
+解决步骤：
+1.查看修改过的代码文件
+2.删除多余的行
+3.再次提交
+
+
+三、分支管理冲突
+通常，合并分支时，如果可能，git会用fast forward模式，但是有些快速合并不能成而且合并时没有冲突，
+这个时候会合并之后在做一次新的提交。但这种模式下，删除分支后，会丢掉分支信息
+
+使用分支命令查看分支信息
+git log --graph --pretty=oneline
+
+如果不行使用fast-forward，git就会在master生成一个新的commit，可以查看分支信息
+
+禁用fast-forward
+git merge --no-ff -m '禁用fast-forward' dev
+
+
+四、bug分支
+在碰到急需现在处理的bug问题时，需要临时新建一个分支，修复后，合并分支，，然后删除bug分支
+bug分支步骤：
+1.把当前的任务存档
+git stash
+
+2.返回到有bug的master分支上
+git checkout master
+
+3.创建临时bug分支
+git checkout -b bug-001
+
+4.修复bug后，提交，合并，最后删除bug-001
+git add code.py
+git commit -m '修复bug'
+git merge --no-ff -m '修复bug-001' bug-001
+git branch -d bug-001
+
+5.返回到dev工作分支，还原工作现场
+git stash pop
+

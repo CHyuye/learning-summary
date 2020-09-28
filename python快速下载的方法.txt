@@ -1,0 +1,2 @@
+pip install keras -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
+kears是你要下载的东西

@@ -1,0 +1,27 @@
+数据库配置
+mysql命令回顾：
+登录：mysql -uroot -p
+查看数据库：show database
+创建数据库：create database test1 charset=utf8  # 切记，一定要指定编码
+使用数据库：use test1
+查看数据库中的表：show tables
+
+django配置mysql数据库：
+修改settings.py中的DATABASES
+DATABASES = {
+    'default'{
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bj18', 使用数据库的名字，注：数据库必须手动创建
+        'USER': 'root', 链接mysql的用户名
+        'PASSWORD': 'mysql', 用户名的密码
+        'HOST': 'localhost', 指定mysql数据库所在的电脑ip
+        'POST': 3306, mysql服务的端口号
+    }
+}
+
+在切换mysql后要安装mysql Python包，才能生效
+pip install pymysql
+
+在应用名下 的__init__.py中加入如下内容：
+import pymysql
+pymysql.install_as_MySQLdb()

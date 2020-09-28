@@ -1,0 +1,80 @@
+models.py文件
+from django.db import models
+
+class AreaInfo(models.Model):
+    """地区模型"""
+    # varbose_name 设置标题栏
+    atitle = models.CharField(varbose_name='标题', max_length=20)
+
+    # 自关联属性 null允许为空，blank后台也允许为空
+    aParent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        """显示地区名称"""
+        return self.atitle
+
+    def title(self):
+        """返回方法列标题"""
+        return self.atitle
+    # 方法列不能进行排序，如果需要为方法进行排序为方法指定排序依据
+    title.admin_order_field = 'atitle'  # 指定可以进行标题排序
+    title.short_description = '地区名称'  # 指定中文列标题名称
+
+    def parent(self):
+        """返回上一级地区名称"""
+        # 判断如果上一级地区名没有，返回空。不然会报错
+        if self.aParent is None:
+            return ''
+        return self.aParent.atitle
+
+    parent.short_description = '上一级地区名称'
+
+
+admin.py 文件
+from django.contrib import admin
+from booktest.models import AreaInfo
+
+# Register your models here.
+
+"""
+    关联对象：
+    在一对多的对象中，可以在一端的编辑页面中编辑多端的对象，嵌入多端对象的方式包括
+    表格、块两种。类型InlineModelAdmin:表示在模型的编辑页面 嵌入关联模型的编辑。
+    子类TabularInline：以表格的形式嵌入
+    子类StackedInline：以块的形式嵌入
+"""
+class AreaStackedInline(admin.StackedInline):
+    """以块的方式显示编辑页"""
+    # 写多类的名字
+    model = AreaInfo
+    extra = 2  # 指定编辑页空白项
+
+
+class AreaTabularInline(admin.TabularInline):
+    """以表的方式显示编辑页"""
+    model = AreaInfo
+    extra = 2
+
+
+class AreaInfoAdmin(admin.ModelAdmin):
+    """地区管理类"""
+    list_per_page = 20  # 控制每一页显示多少条
+    # 可以写模型类信息，还可以是方法
+    list_display = ['id', 'atitle', 'title']  # 控制显示在后台的列表栏信息
+    actions_on_bottom = True  # 下拉列表框
+    actions_on_top = False  # 去除上拉列表框
+    list_filter = ['atitle']  # 列表右侧过滤栏，以标题进行过滤
+    search_fields = ['atitle']  # 列表页上方的搜索框，以标题搜索
+
+    # fields = ['aParent', 'atitle']  # 显示字段顺序
+    # 使用分类，排序字段顺序
+    fieldsets = (
+        ('基本', {'fields': ['atitle']}),
+        ('高级', {'fields': ['aParent']})
+    )
+
+    # inlines = [AreaStackedInline]  # 以块的方式显示编辑页
+    inlines = [AreaTabularInline]  # 以表格的方式显示编辑页
+
+
+admin.site.register(AreaInfo, AreaInfoAdmin)

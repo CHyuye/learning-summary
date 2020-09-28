@@ -1,0 +1,67 @@
+ORM
+  django中内嵌了ORM框架，ORM框架可以将类和数据表进行对应起来，只需要通过类和对象就可以对数据表进行操作。
+  设计类：模型类
+  ORM另一个作用：根据设计的类生成数据库中的表
+
+模型类的设计
+在models.py中设计模型类，必须继承models.Model类
+
+模型类生成表
+1）生成迁移文件
+   python manage.py makemigrations
+
+2）执行迁移生成表
+  python manage.py migrate
+生成表名的默认格式：应用名_模型类名小写
+
+
+后台管理
+
+1）本地化
+     语言和时区的本地化 -- 修改setting.py文件
+2）创建管理员
+    命令: python manage.py createsuperuser  
+3）注册模型类
+    在应用下的admin.py注册模型类
+    告诉django框架根据注册的模型类来生成对应表的管理页面
+4）自定义管理页面
+    自定义管理页面。模型管理类就是告诉django在生成的管理类页面上显示那些内容
+
+
+视图
+
+1）定义视图
+视图函数在view.py中
+
+2）进行url配置
+  1.所有url配置项都定义在一个叫做urlpatterns的列表中
+  2.每一个配置项都会调用url函数，第一个参数是正则表达式，第二个参数是对应的动作，可以写视图函数的名字
+ 
+url配置的目的：是让建立url和视图函数的对应关系。
+配置url的两种写法：
+a) url(正则，视图函数名)
+b)url(正则，include(应用中的urls文件))
+
+
+模板  -- 模板不仅仅是一个html文件
+
+1）创建模板文件夹  -- templates
+2）配置模板目录  -- 'DIRS':[os.path.join(BASE_DIR,'templates')]  #设置模板文件目录
+3）使用模板文件
+  a）加载模板文件 -- 去模板目录下面获取html文件的内容，得到一个模板对象
+  b）定义模板上下文  -- 向模板文件传递数据
+  c）模板渲染 -- 得到一个标椎的html内容
+
+给模板传递数据
+模板变量使用：{{ 模板变量名 }}
+模板代码段：{%代码段%}
+for循环：
+{% for i in list %}
+{% endfor %}
+
+BUG警示：
+（1）、在自动创建django会是MIDDLEWARE，如果在使用1.8版本的django需要写成MIDDLEWARE_CLASSES
+（2）、在创建外键时关于on_delete的参数错误
+例如：topic = models.ForeignKey('Topic', on_delete=models.CASCADE)
+（3）、Python3.7版本运行django报错：Runtimeeerror:generator raised Stoplteration
+这个错误是因为Python3.7版本问题，所以需要更改版本，用python3.6的版本

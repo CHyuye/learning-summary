@@ -1,0 +1,11 @@
+docker添加
+1、根目录下新建mydocker文件夹并进入
+2、在DockerFile中使用VOLUME指令来给镜像添加多个或一个数据卷
+3、File构建
+4、build后生成镜像  -- 获得一个新镜像 chen/ubuntu
+docker bulild -f /mydocker/dockerfile -t chen/ubuntu .
+5、run容器
+docker run -it chem/ubuntu /bin/bash
+
+Docker挂载主机目录Docker访问出现cannot open directory .:Permission denied
+解决方法：在挂载目录后多加一个--privileged=true即可

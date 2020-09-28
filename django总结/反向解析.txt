@@ -1,0 +1,23 @@
+反向解析
+当某一个url配置地址改变时，页面上使用反向解析生成地址的位置不需要改变
+
+1、根据url正则表达式的配置动态生成url
+2、在项目urls中包含具体的应用的urls文件指定namespace
+3、在应用的urls中配置指定name
+
+在模板文件使用时，格式如下：
+{% url 'namespace 名字:name %}  例如：{% url 'booktest:index' %}
+
+带位置参数：
+{% url 'namespace 名字:name' 参数 %}  例如：{% url 'booktest:index'  1 2 %}
+
+带关键字参数的：
+{% url 'namespace 名字:name' 关键字参数 %}  例如：{% url 'booktest:index'  id=1 name=2 %}
+
+
+2.在重定向的时候使用反向解析
+from django.core.urlresolvers import reverse
+
+无参数： reverse('namespace 名字:name名字')
+如果有位置参数：reverse('namespace名字:name名字', args = 位置参数元组)
+如果有关键字参数: reverse('namespace名字；name名字', kwargs = 字典

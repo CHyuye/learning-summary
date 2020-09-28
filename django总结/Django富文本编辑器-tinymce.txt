@@ -1,0 +1,14 @@
+1、安装依赖包
+pip install django-tingymce==2.8.0
+
+2、在setting文件注册这个app
+
+3、在setting文件末尾添加编辑器配置
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height' 400,
+}
+
+4、在项目文件的urls.py文件中配置编辑器url路径
+

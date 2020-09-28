@@ -1,0 +1,51 @@
+一、使用GitHub
+1）创建仓库
+注册git账户，点击Newrespository
+
+2）添加ssh账户
+1.点击账户头像，选择setting
+2.点击SSH and GPG keys，添加公钥
+3.在Ubuntu中，会到主目录，编辑文件.gitconfig，修改某台机器的git配置
+4.修改注册的github时的邮箱，填写用户名
+5.使用命令生成ssh密钥   ssh-keygen -t rsa-C '邮箱地址'
+6.进入主目录下的.ssh文件夹
+公钥为：id_rsa.pub
+密钥为：id_rsa
+7.会到浏览器，填写标题，粘贴公钥
+
+
+二、克隆项目
+1.找寻你要克隆的仓库项目的页面
+2.复制git地址   （它有http地址和git地址，最好用git地址）
+3.克隆命令
+git clone git地址
+4.克隆出错，输入一下命令
+eval "$(ssh-agent -s)"
+ssh -add
+在输入克隆命令
+
+
+三、上传分支
+1.项目克隆到本地后，创建分支
+git checkout -b saint
+
+2.编辑好代码后，提交一个版本
+git add code.py
+git commit -m '版本一'
+
+3.推送到github上
+git push origin saint
+
+
+
+四、将本地分支跟踪服务器分支
+命令：
+git branch --set-upsteam-to=origin/远程分支名称  本地分支名称
+例如：git branch --set-upsteam-to=origin/saint saint
+
+
+五、从远程分支上拉取代码
+命令：
+git pull origin 分支名称
+例如： git pull origin saint
+使用上述命令会把远程分支saint上的代码下载并合并到本地所在分支

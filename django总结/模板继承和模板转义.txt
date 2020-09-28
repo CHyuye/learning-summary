@@ -1,0 +1,13 @@
+一、模板继承
+1、在templates模板下创建一个base.html文件
+2、把要需要在子模板重写的段落加block继承块
+	{% block b1 %}  -- b1指定块名，为了在子模板标记重写名
+	在这里写入父模板内容
+	{% endblock b1 %}
+3、创建要继承base的文件，在前头加
+	{% extends 'booktest/base.html' %}
+4、在子模板中重写继承的块
+	{% block b1 %}
+	{{ block.super }}  -- 把父模板的内容添加到子模板中
+	在这里重写父模板内容
+	{% endblock b1 %}

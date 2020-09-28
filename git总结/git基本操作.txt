@@ -1,0 +1,62 @@
+一、
+1.创建一个版本库
+新建一个目录git_test，在git_test文件下创建一个版本
+  git init
+
+2.版本创建
+两步：
+git add 文件名
+git commit -m '版本名' 
+
+3.版本回退
+1）查看版本记录：
+git log
+git reflog   （关闭终端操作时可以查看操作记录）
+git log --pretty=oneline  （一行显示版本记录）
+
+2）版本回退方法
+git reset --hard HEAD^   （回退到前一个版本）
+git reset --hard HEAD^^  （回退两个版本）
+git reset --hard HEAD~10  （回退到前10个）
+
+git reset --hard 版本号
+
+
+二、工作区与暂存区
+git_test就是工作区
+提交的文件放在暂存区
+
+把文件往git版本库中添加分两步：
+第一步：git add 把文件添加进去，实际上就是把文件修改添加到暂存区
+第二步：git commit提交更改，实际上就是暂存区的所有内容提交到当前分支
+
+1.查看提交文件状态
+git status
+
+小结：
+场景1：当你该乱了工作区的某个文件内容，想直接丢弃工作区的修改，用命令 git checkout
+场景2：当你该乱了工作区的某个文件内容，并添加到了暂存区，想丢弃修改，分两步，一、git reset HEAD file
+二、回到场景一，
+场景3：已经添加到版本库，回退
+
+
+三、对比文件的不同
+命令：
+git diff HEAD -- [你要比较的文件名]code.txt
+
+对比HEAD和HEAD^版本的不同
+git diff HEAD HEAD^ -- code.txt
+
+
+四、删除文件
+删除步骤：
+1） rm code2.txt
+2）git  rm code2.txt
+3）git commit -m '删除文件code2.txt'
+
+小结：
+命令git rm 用于删除一个文件。如果一个文件被提交到版本库，那么永远不用担心误删，但是，你要恢复文件到
+最新版本，你会丢失最近一次提交后的你修改的内容
+
+
+

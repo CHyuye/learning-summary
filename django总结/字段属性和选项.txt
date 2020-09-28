@@ -1,0 +1,90 @@
+字段类型
+  使用时需要导入django.db.models包，字段类型如下
+
+AutoField  -- 自动·增长的IntegerField，通常不用指，不指定的Django会自动创建属性名为id的自动增长性
+
+BooleanField -- 布尔字段，值为True或者False
+
+NullBooleanField -- 支持Null，True和False
+
+CharField(max_length=最大长度）  --  字符串，参数最大值
+
+TextField  -- 大文本字段，一般超过4000个字符时使用
+
+IntegerField  --  整数
+
+DecimalField(max_digits=None,decimal_places=None)  --  十进制浮点数，参数max_digits表示总位数，
+参数decimal_places表示小数点
+
+FloatField  -- 浮点数，参数同上
+
+DateField([auto_now=False, auto_now_add=False])  --  日期，年月日
+1)参数auto_now，表示每次保存对象时，自动设置该字段为当前时间
+2）参数auto_now_add，表示当对象第一次被创建时自动设置当前时间
+
+TimeField -- 时间，时分秒 参数同上
+
+DateTimeField  --  日期时间，年月日时分秒，参数同上
+
+FileFiled  - - 上传文件字段
+
+ImageField  --  继承于FileFiled，对上传的内容进行检验，确保是有效图片
+
+选项，通过选项对字段进行约束
+default  -- 默认值，设置默认值
+
+primary_key  -- 若为True，则该字段会成为模型的主键字段，默认值为False，一般作为AutoField的选项使用
+
+unique  --  如果为True，这个字段必须为唯一值，默认值为False
+
+db_index  -- 若值为True，则在表中为此字段创建索引，默认为False
+
+db_column  -- 字段的名称，如果未指定，则使用属性名
+
+null  -- 如果为True，表示允许为空，默认值为False
+
+blank -- 如果为True，表示该字段允许为空白，默认值为False
+
+对比：null是数据库范畴的概念，blank是后台管理页面表单验证范畴
+经验：当修改模型类之后，如果添加的选项不影响表的结构，则不需要重新做迁移，商品中的default和blank不影响表结构
+
+查询函数
+通过模型类.objects 属性可以调用如下函数，实现对模型类对应的数据表的查询
+
+函数名  ---  功能  ---  返回值  --- 说明
+get  --- 返回表中满足条件的一条且只能是一条数据 --- 返回的是一个模型对象 --- 如果查询多条或者查不到都会报异常
+
+all --- 返回模型类对应表格中的所有数据  ---  返回值是QuerySet类型 --- 查询集
+
+filter（过滤） -- 返回满足条件的数据  --- 返回值是QuerySet类型  --- 参数写查询条件
+
+exclude（排除）  --- 返回不满足条件的数据  --- 返回值是QuerySet类型  --- 参数写查询条件
+
+order_by ---  对查询结果进行排序  ---  返回值是QuerySet类型  ---  参数中写根据那些字段进行排序
+
+模糊查询
+例如：查询书名包含‘传’的图书 contains（包含）
+BookInfo.objects.filter(btitle__contains='传')  --- 模型类属性名__条件名 使用双下划线
+
+例如：查询书名以‘部’结尾的图书 endswith  开头startswith
+BookInfo.objects.filter(btitle__endswith='部')
+
+空查询 isnull
+例如：查询书名不为空的图书
+BookInfo.objects.filter(btitle_isnull=False)
+
+范围查询  in
+例如：查询id为1或3或5的图书
+BookInfo.objects.filter(id__in = [1,3,5])
+
+比较查询gt（great than）lt（less than）gte（great than equal）大于等于
+例如：查询id大于3的图书
+BookInfo.objects.filter(id__gt=3)
+
+日期查询
+例如：查询1999年1月1日后的书
+BookInfo.objects.filter(bpub_date__gt=date(1999,1,1))
+
+order_by 方法
+例如：把id大于3的图书信息按阅读量从大到小排序显示
+BookInfo.objects.filter(id__gt=3).order_by('-bread')

@@ -1,0 +1,11 @@
+自定义过滤器
+
+1.创建一个templatetags的Python包  -- python包名一定得是templatetags
+2.在templatetags下创建一个filters.py文件
+3.导入工具，from django.template from Library
+4.创建Library对象， register = Library()
+5.自定义功能函数  def mod(num):  自定义过滤器函数，至少要有一个参数，最多两个
+6.返回  return num % 2 == 0
+7.在过滤函数上添加装饰器方法  @register.filter
+8.在需要的templates文件下加载这个过滤器函数  {% load filters %}
+9.使用过滤函数  {% if book.id|mod %}
